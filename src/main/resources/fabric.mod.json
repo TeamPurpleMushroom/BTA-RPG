@@ -1,11 +1,11 @@
 {
 	"schemaVersion": 1,
-	"id": "examplemod",
+	"id": "btarpg",
 	"version": "${version}",
-	"name": "Example Mod",
+	"name": "BTA! RPG!",
 	"description": "This mod aims to help new BTA modders.",
 	"authors": [
-		"Turnip Labs"
+		"PurpleMushroom"
 	],
 	"contact": {
 		"homepage": "",
@@ -16,20 +16,20 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"turniplabs.examplemod.ExampleMod"
+          "purplemushroom.btarpg.BTARPG"
 		],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+					"purplemushroom.btarpg.BTARPG"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+					"purplemushroom.btarpg.BTARPG"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+					"purplemushroom.btarpg.BTARPG"
 		]
 	},
 	"mixins": [
-		"examplemod.mixins.json"
+		"btarpg.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=${fabricloader}",
