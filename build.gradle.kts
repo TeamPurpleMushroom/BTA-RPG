@@ -49,6 +49,7 @@ val prismAccountsFile = providers.provider {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/btarpg.accesswidener")
     customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/v${libs.versions.bta.get()}/manifest.json")
 	runs {
 		prismAccountsFile.orNull?.let { file ->
