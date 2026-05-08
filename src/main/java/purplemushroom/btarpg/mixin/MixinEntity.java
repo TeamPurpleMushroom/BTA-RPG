@@ -34,7 +34,7 @@ public class MixinEntity implements IEntity {
 
 	@Inject(method = "load", at = @At("TAIL"))
 	private void load(CompoundTag tag, CallbackInfo ci) {
-		CompoundTag dataTag = tag.getCompound("btaData");
+		CompoundTag dataTag = tag.getCompoundOrDefault("btaData", null);
 		if (dataTag != null) {
 			btaData.readFromNBT(dataTag);;
 		}

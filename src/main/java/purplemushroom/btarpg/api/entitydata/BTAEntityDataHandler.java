@@ -48,7 +48,7 @@ public final class BTAEntityDataHandler {
 
 	public void readFromNBT(CompoundTag nbt) {
 		for (IPersistentEntityData data : persistentEntityData) {
-			CompoundTag tag = nbt.getCompound(data.getName());
+			CompoundTag tag = nbt.getCompoundOrDefault(data.getName(), null);
 			if (tag != null) data.readFromNBT(tag);
 		}
 	}
