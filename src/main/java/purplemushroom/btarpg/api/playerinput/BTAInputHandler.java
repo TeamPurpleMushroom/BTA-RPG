@@ -1,7 +1,7 @@
-package purplemushroom.btarpg.api;
+package purplemushroom.btarpg.api.playerinput;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.option.GameSettings;
+import purplemushroom.btarpg.entitydata.StaminaData;
 
 public class BTAInputHandler {
 	private final Minecraft mc;
@@ -14,6 +14,9 @@ public class BTAInputHandler {
 		if (pressed && mc.gameSettings.keyJump.isKeyboardKey(keyCode)) {
 			if (!this.mc.thePlayer.onGround) {
 				this.mc.thePlayer.jump();
+				StaminaData stamina = StaminaData.get(this.mc.thePlayer);
+				stamina.setStamina(stamina.getStamina() + 1);
+				System.out.println(stamina.getStamina());
 			}
 		}
 	}

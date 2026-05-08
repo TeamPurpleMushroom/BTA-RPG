@@ -5,8 +5,13 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "mixins": [],
+  "mixins": [
+    "MixinEntity"
+  ],
   "client": [
     "MixinPlayerInput"
-  ]
+  ],
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  }
 }
