@@ -3,45 +3,49 @@ package purplemushroom.btarpg.mixin;
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.world.World;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import purplemushroom.btarpg.api.entitydata.BTADataAttachmentHook;
-import purplemushroom.btarpg.api.entitydata.BTAEntityData;
-import purplemushroom.btarpg.api.entitydata.BTAEntityDataHandler;
-import purplemushroom.btarpg.mixininterfaces.IEntity;
+import purplemushroom.btarpg.api.entityattachment.DataAttachmentHook;
+import purplemushroom.btarpg.api.entityattachment.attachments.EntityAttachmentBase;
+import purplemushroom.btarpg.api.entityattachment.EntityAttachmentHandler;
+import purplemushroom.btarpg.mixininterface.IMixinEntity;
 
+import java.util.function.Consumer;
+
+@Debug(export = true)
 @Mixin(value = Entity.class, remap = false)
-public class MixinEntity implements IEntity {
+public class MixinEntity implements IMixinEntity {
 	@Unique
-	private final BTAEntityDataHandler btaData = new BTAEntityDataHandler();
+	private final EntityAttachmentHandler attachments = new EntityAttachmentHandler();
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void constructor(World world, CallbackInfo ci) {
-		BTADataAttachmentHook.attachDataTo((Entity)(Object)this, btaData);
+		DataAttachmentHook.attachDataTo((Entity)(Object)this, attachments);
 	}
 
 	@Inject(method = "saveWithoutId", at = @At("TAIL"))
 	private void save(CompoundTag tag, CallbackInfo ci) {
-		if (btaData.hasData()) {
+		if (attachments.hasData()) {
 			CompoundTag dataTag = new CompoundTag();
-			btaData.writeToNBT(dataTag);
-			tag.putCompound("btaData", dataTag);
+			attachments.writeToNBT(dataTag);
+			tag.putCompound("btdAttachments", dataTag);
 		}
 	}
 
 	@Inject(method = "load", at = @At("TAIL"))
 	private void load(CompoundTag tag, CallbackInfo ci) {
-		CompoundTag dataTag = tag.getCompoundOrDefault("btaData", null);
+		CompoundTag dataTag = tag.getCompoundOrDefault("btdAttachments", null);
 		if (dataTag != null) {
-			btaData.readFromNBT(dataTag);;
+			attachments.readFromNBT(dataTag);;
 		}
 	}
 
 	@Override
-	public <T extends BTAEntityData> T getData(Class<T> clazz) {
-		return btaData.get(clazz);
+	public EntityAttachmentHandler examplemod$getAttachments() {
+		return attachments;
 	}
 }

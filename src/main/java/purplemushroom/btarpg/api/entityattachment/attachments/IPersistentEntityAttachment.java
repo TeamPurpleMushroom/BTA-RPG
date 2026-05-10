@@ -1,8 +1,8 @@
-package purplemushroom.btarpg.api.entitydata;
+package purplemushroom.btarpg.api.entityattachment.attachments;
 
 import com.mojang.nbt.tags.CompoundTag;
 
-public interface IPersistentEntityData {
+public interface IPersistentEntityAttachment {
 	String getName();
 
 	void writeToNBT(CompoundTag nbt);

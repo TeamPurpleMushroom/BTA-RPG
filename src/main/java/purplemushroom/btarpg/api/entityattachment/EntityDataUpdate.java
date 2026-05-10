@@ -1,13 +1,12 @@
-package purplemushroom.btarpg.api.entitydata;
+package purplemushroom.btarpg.api.entityattachment;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.Queue;
 
-public final class BTAEntityDataUpdate {
-	BTAEntityDataUpdate() {} // package-private; should only be called from BTAEntityDataHandler
+public final class EntityDataUpdate {
+	EntityDataUpdate() {} // package-private; should only be called from BTAEntityDataHandler
 
 	private final ArrayDeque<DataVar<?>> dataQueue = new ArrayDeque<>();
 
