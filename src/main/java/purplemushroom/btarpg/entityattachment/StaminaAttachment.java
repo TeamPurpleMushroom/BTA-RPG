@@ -1,16 +1,10 @@
 package purplemushroom.btarpg.entityattachment;
 
 import com.mojang.nbt.tags.CompoundTag;
-import net.minecraft.core.entity.player.Player;
-import purplemushroom.btarpg.api.entityattachment.attachments.IPersistentEntityAttachment;
-import purplemushroom.btarpg.api.entityattachment.attachments.PlayerAttachment;
+import purplemushroom.btarpg.api.entityattachment.EntityAttachment;
 
-public class StaminaAttachment extends PlayerAttachment implements IPersistentEntityAttachment {
+public class StaminaAttachment extends EntityAttachment {
 	private float stamina = 0.0f;
-
-	public StaminaAttachment(Player holder) {
-		super(holder);
-	}
 
 	public void setStamina(float stamina) {
 		this.stamina = stamina;
@@ -21,7 +15,7 @@ public class StaminaAttachment extends PlayerAttachment implements IPersistentEn
 	}
 
 	@Override
-	public String getName() {
+	public String getNBTName() {
 		return "stamina";
 	}
 

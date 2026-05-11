@@ -2,45 +2,29 @@ package purplemushroom.btarpg.api.entityattachment;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.entity.Entity;
-import purplemushroom.btarpg.api.entityattachment.attachments.EntityAttachmentBase;
-import purplemushroom.btarpg.api.entityattachment.attachments.IPersistentEntityAttachment;
 import purplemushroom.btarpg.mixininterface.IMixinEntity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
 public final class EntityAttachmentHandler {
-	private final HashMap<Class<? extends EntityAttachmentBase>, EntityAttachmentBase<?>> dataMap = new HashMap<>();
-	//private final ArrayList<ISynchedEntityAttachment> synchedEntityData = new ArrayList<>();
-	private final ArrayList<IPersistentEntityAttachment> persistentEntityData = new ArrayList<>();
+	private final HashMap<Class<? extends EntityAttachment>, EntityAttachment> dataMap = new HashMap<>();
 
-	//private final ArrayList<ISynchedEntityAttachment> dataThatNeedsToBeSynched = new ArrayList<>();
-
-	public void register(EntityAttachmentBase<?> attachment) {
-
-		/*if (newData instanceof ISynchedEntityAttachment) {
-			ISynchedEntityAttachment synchedData = (ISynchedEntityAttachment) newData;
-			synchedData.setSyncID(synchedEntityData.size());
-			synchedEntityData.add(synchedData);
-		}*/
-		if (attachment instanceof IPersistentEntityAttachment) {
-			persistentEntityData.add((IPersistentEntityAttachment) attachment);
-		}
+	public void register(EntityAttachment attachment) {
 
 		if (dataMap.put(attachment.getClass(), attachment) != null) {
 			throw new IllegalStateException("An entity attachment of this type was already registered");
 		}
 	}
 
-	private <T extends EntityAttachmentBase<?>> T get(Class<T> clazz) {
+	private <T extends EntityAttachment> T get(Class<T> clazz) {
 		T data = (T)dataMap.get(clazz);
 		if (data == null) throw new IllegalStateException("Attempted to fetch entity data that has not been registered");
 		return data;
 	}
 
-	private Collection<EntityAttachmentBase<?>> getAllAttachments() {
+	private Collection<EntityAttachment> getAllAttachments() {
 		return dataMap.values();
 	}
 
@@ -49,17 +33,21 @@ public final class EntityAttachmentHandler {
 	}
 
 	public void writeToNBT(CompoundTag nbt) {
-		for (IPersistentEntityAttachment data : persistentEntityData) {
-			CompoundTag tag = new CompoundTag();
-			data.writeToNBT(tag);
-			nbt.putCompound(data.getName(), tag);
+		for (EntityAttachment attachment : dataMap.values()) {
+			if (attachment.getNBTName() != null) {
+				CompoundTag tag = new CompoundTag();
+				attachment.writeToNBT(tag);
+				nbt.putCompound(attachment.getNBTName(), tag);
+			}
 		}
 	}
 
 	public void readFromNBT(CompoundTag nbt) {
-		for (IPersistentEntityAttachment data : persistentEntityData) {
-			CompoundTag tag = nbt.getCompoundOrDefault(data.getName(), null);
-			if (tag != null) data.readFromNBT(tag);
+		for (EntityAttachment attachment : dataMap.values()) {
+			if (attachment.getNBTName() != null) {
+				CompoundTag tag = nbt.getCompoundOrDefault(attachment.getNBTName(), null);
+				if (tag != null) attachment.readFromNBT(tag);
+			}
 		}
 	}
 
@@ -89,18 +77,16 @@ public final class EntityAttachmentHandler {
 		}
 	}*/
 
-	public static <K extends Entity, T extends EntityAttachmentBase<K>> T get(K entity, Class<T> attachmentType) {
+	public static <T extends EntityAttachment> T get(Entity entity, Class<T> attachmentType) {
 		EntityAttachmentHandler attachments = ((IMixinEntity)entity).examplemod$getAttachments();
 		return attachments.get(attachmentType);
 	}
 
-	public static <K extends Entity, T extends EntityAttachmentBase<?>> void fireHook(K entity, Class<T> attachmentType, Consumer<T> hook) {
+	public static <T extends Entity> void fireHook(T entity, Consumer<EntityAttachment> hook) {
 		EntityAttachmentHandler attachments = ((IMixinEntity)entity).examplemod$getAttachments();
 
-		for (EntityAttachmentBase<?> attachment : attachments.getAllAttachments()) {
-			if (attachmentType.isInstance(attachment)) {
-				hook.accept((T)attachment);
-			}
+		for (EntityAttachment attachment : attachments.getAllAttachments()) {
+			hook.accept(attachment);
 		}
 	}
 }

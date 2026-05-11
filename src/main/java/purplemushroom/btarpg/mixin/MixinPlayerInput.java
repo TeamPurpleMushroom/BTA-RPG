@@ -8,8 +8,6 @@ import net.minecraft.client.input.PlayerInput;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import purplemushroom.btarpg.api.entityattachment.EntityAttachmentHandler;
-import purplemushroom.btarpg.api.entityattachment.attachments.PlayerAttachment;
-import purplemushroom.btarpg.mixininterface.IMixinEntity;
 
 @Debug(export = true)
 @Mixin(value = PlayerInput.class, remap = false)
@@ -25,8 +23,7 @@ public class MixinPlayerInput {
 		if (original) {
 			EntityAttachmentHandler.fireHook(
 				this.mc.thePlayer,
-				PlayerAttachment.class,
-				(attachment) -> attachment.handleKeyPress(keyCode, pressed)
+				(attachment) -> attachment.playerKeyInputHook(keyCode, pressed)
 			);
 		}
 		return original;

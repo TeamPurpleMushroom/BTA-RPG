@@ -10,11 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import purplemushroom.btarpg.api.entityattachment.DataAttachmentHook;
-import purplemushroom.btarpg.api.entityattachment.attachments.EntityAttachmentBase;
 import purplemushroom.btarpg.api.entityattachment.EntityAttachmentHandler;
 import purplemushroom.btarpg.mixininterface.IMixinEntity;
-
-import java.util.function.Consumer;
 
 @Debug(export = true)
 @Mixin(value = Entity.class, remap = false)

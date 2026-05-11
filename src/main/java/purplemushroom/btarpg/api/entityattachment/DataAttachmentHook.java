@@ -9,7 +9,7 @@ public class DataAttachmentHook {
 	public static void attachDataTo(Entity entity, EntityAttachmentHandler data) {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			StaminaAttachment stamina = new StaminaAttachment(player);
+			StaminaAttachment stamina = new StaminaAttachment();
 			SkillsAttachment skills = new SkillsAttachment(player, stamina);
 			data.register(stamina);
 			data.register(skills);
