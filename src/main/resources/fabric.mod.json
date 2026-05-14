@@ -2,8 +2,8 @@
 	"schemaVersion": 1,
 	"id": "btarpg",
 	"version": "${version}",
-	"name": "BTA! RPG!",
-	"description": "This mod aims to help new BTA modders.",
+	"name": "Better Than Dragons!",
+	"description": "RPG mod for BTA!",
 	"authors": [
 		"PurpleMushroom"
 	],
