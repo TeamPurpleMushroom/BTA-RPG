@@ -2,6 +2,7 @@ package purplemushroom.btarpg.entityattachment;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.option.GameSettings;
 import net.minecraft.core.entity.player.Player;
 import purplemushroom.btarpg.api.entityattachment.EntityAttachment;
 
@@ -24,7 +25,7 @@ public class SkillsAttachment extends EntityAttachment {
 
 	@Override
 	public void playerKeyInputHook(int keyCode, boolean pressed) {
-		if (pressed && Minecraft.getMinecraft().gameSettings.keyJump.isKeyboardKey(keyCode)) {
+		if (pressed && GameSettings.KEY_JUMP.isKeyboardKey(keyCode)) {
 			if (doubleJumpSkill) {
 				if (!player.onGround && doubleJumpReady) {
 					player.jump();
