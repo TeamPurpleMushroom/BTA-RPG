@@ -31,6 +31,7 @@
 	"mixins": [
 		"btarpg.mixins.json"
 	],
+	"accessWidener": "btarpg.classtweaker",
 	"depends": {
 		"fabricloader": ">=${fabricloader}",
 		"halplibe": ">=${halplibe}",

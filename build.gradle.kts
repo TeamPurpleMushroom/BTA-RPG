@@ -15,6 +15,7 @@ group = modGroup.get()
 version = modVersion.get()
 loom {
 	customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
+	accessWidenerPath = file("src/main/resources/btarpg.classtweaker")
 }
 repositories {
 	mavenCentral()
