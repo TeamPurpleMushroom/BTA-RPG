@@ -19,7 +19,7 @@ public class MixinPlayerInput {
 	@Definition(id = "currentScreen", field = "Lnet/minecraft/client/Minecraft;currentScreen:Lnet/minecraft/client/gui/Screen;")
 	@Expression("?.currentScreen == null")
 	@ModifyExpressionValue(method = "keyEvent", at = @At("MIXINEXTRAS:EXPRESSION"))
-	private boolean handleKeyPress(boolean original, int keyCode, boolean pressed) {
+	private boolean handleKeyPress(boolean original, int keyCode, int mouseCode, boolean pressed) {
 		if (original) {
 			EntityAttachmentHandler.fireHook(
 				this.mc.thePlayer,
